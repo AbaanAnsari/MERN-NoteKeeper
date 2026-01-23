@@ -1,11 +1,32 @@
-
 import { Link } from "react-router";
 import { PlusIcon } from "lucide-react";
+import { motion } from "framer-motion";
 
+/* ---------------- Motion Variants ---------------- */
+
+const navFade = {
+  hidden: { opacity: 0, y: -12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35, ease: "easeOut" },
+  },
+};
+
+const buttonTap = {
+  tap: { scale: 0.95 },
+};
+
+/* ---------------- Component ---------------- */
 
 const Navbar = () => {
   return (
-    <header className="bg-base-300 border-b border-base-content/10">
+    <motion.header
+      className="bg-base-300 border-b border-base-content/10"
+      variants={navFade}
+      initial="hidden"
+      animate="visible"
+    >
       <div className="mx-auto max-w-6xl px-4 py-3">
         <div className="flex items-center justify-between">
 
@@ -15,7 +36,7 @@ const Navbar = () => {
           </h1>
 
           {/* Actions */}
-          <div className="flex items-center gap-3">
+          <motion.div whileTap="tap" variants={buttonTap}>
             <Link
               to="/create"
               className="btn btn-primary rounded-xl gap-2"
@@ -23,11 +44,11 @@ const Navbar = () => {
               <PlusIcon className="size-5" />
               <span className="hidden sm:inline">New Note</span>
             </Link>
-          </div>
+          </motion.div>
 
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 };
 
