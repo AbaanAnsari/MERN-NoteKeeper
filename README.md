@@ -1,9 +1,11 @@
 # 🗒️ MERN-NoteKeeper
 
-![MongoDB](https://img.shields.io/myget/:feed/dt/:MongoDB-#47A248?logo=mongodb&logoColor=white)
-![Express](https://img.shields.io/badge/Express-#000000?logo=express&logoColor=white)
-![React](https://img.shields.io/badge/React-18-blue?logo=react)
-![Node.js](https://img.shields.io/badge/Node.js-#339933?logo=node.js&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-%2347A248.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-%23000000.svg?style=for-the-badge&logo=express&logoColor=white)
+![React](https://img.shields.io/badge/React-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Node.js](https://img.shields.io/badge/Node.js-%23339933.svg?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
 
 
 > 📝 A full-stack **Note Taking & Management app** built with the MERN stack — **create, edit, view and delete notes** with a smooth user experience.
