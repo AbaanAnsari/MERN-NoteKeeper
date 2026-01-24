@@ -4,9 +4,7 @@
 ![Express](https://img.shields.io/badge/Express-#000000?logo=express&logoColor=white)
 ![React](https://img.shields.io/badge/React-18-blue?logo=react)
 ![Node.js](https://img.shields.io/badge/Node.js-#339933?logo=node.js&logoColor=white)
-![License](https://img.shields.io/github/license/AbaanAnsari/MERN-NoteKeeper)
-![Stars](https://img.shields.io/github/stars/AbaanAnsari/MERN-NoteKeeper?style=social)
-![Forks](https://img.shields.io/github/forks/AbaanAnsari/MERN-NoteKeeper?style=social)
+
 
 > 📝 A full-stack **Note Taking & Management app** built with the MERN stack — **create, edit, view and delete notes** with a smooth user experience.
 
