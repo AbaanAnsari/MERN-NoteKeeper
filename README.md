@@ -37,8 +37,8 @@ The application supports the core **CRUD** operations:
 | Frontend | React.js |
 | Backend | Node.js + Express.js |
 | Database | MongoDB |
-| Styling | CSS / UI Libraries |
-| Deployment | Render / Vercel / Your choice |
+| Styling | Tailwind CSS / Daisy UI |
+| Deployment | Render.com |
 
 ---
 
