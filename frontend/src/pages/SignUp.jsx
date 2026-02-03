@@ -17,6 +17,11 @@ const Signup = () => {
     const handleSignUp = async (e) => {
         e.preventDefault();
 
+        const userFound = await axiosInstance.get("/users")
+        if (userFound.email === email) {
+            toast.error("User with this email already exists");
+        }
+
         if (!fullName) {
             setError("Enter your name");
             return;
@@ -30,11 +35,6 @@ const Signup = () => {
         if (!password) {
             setError("Invalid password");
             return;
-        }
-
-        const userFound = await axiosInstance.get("/users")
-        if (userFound.email === email) {
-            toast.error("User with this email already exists");
         }
 
         setLoading(true);

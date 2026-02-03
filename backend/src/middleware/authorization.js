@@ -1,16 +1,35 @@
 import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
 async function authenticateToken(req, res, next) {
-    const authHeader = await req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
+    try {
+        const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "")
 
-    if (!token) return res.sendStatus(401);
+        // console.log(token);
+        if (!token) {
+            return res.status(401).json({
+                error: true,
+                message: "Unauthorized request"
+            })
+        }
 
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
-        if (error) return res.sendStatus(401);
+        const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+
+        const user = await User.findById(decodedToken?._id).select("-password -refreshToken")
+
+        if (!user) {
+            return res.status(401).json({
+                error: true,
+                message: "Invalid Access Token"
+            })
+        }
+
         req.user = user;
-        next();
-    });
+        next()
+    } catch (error) {
+        throw new ApiError(401, error?.message || "Invalid access token")
+    }
+
 }
 
 export default authenticateToken
