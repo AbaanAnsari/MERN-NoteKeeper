@@ -117,7 +117,7 @@ export async function loginUser(req, res) {
 
 
 //Logout User
-export async function LogoutUser(req, res) {
+export async function logoutUser(req, res) {
     await User.findByIdAndUpdate(req.userInfo._id,
         {
             $unset: { refreshToken: 1 }
