@@ -14,7 +14,7 @@ const Navbar = () => {
             NoteKeeper
           </h1>
 
-          {/* Actions */}
+          {/* Create Button */}
           <div className="flex items-center gap-3">
             <Link
               to="/create"
@@ -23,6 +23,13 @@ const Navbar = () => {
               <PlusIcon className="size-5" />
               <span className="hidden sm:inline">New Note</span>
             </Link>
+          </div>
+
+          {/* Logout Button */}
+          <div className="flex items-center">
+            <Link>
+            </Link>
+
           </div>
 
         </div>
