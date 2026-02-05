@@ -1,9 +1,12 @@
 
 import { Link } from "react-router";
-import { PlusIcon } from "lucide-react";
+import { LogOut, PlusIcon } from "lucide-react";
+import { useEffect } from "react";
 
 
-const Navbar = () => {
+const Navbar = (user) => {
+
+
   return (
     <header className="bg-base-300 border-b border-base-content/10">
       <div className="mx-auto max-w-6xl px-4 py-3">
@@ -27,9 +30,13 @@ const Navbar = () => {
 
           {/* Logout Button */}
           <div className="flex items-center">
-            <Link>
+            <Link
+              to="/logout"
+              className="btn btn-primary rounded-xl gap-2"
+            >
+              <LogOut className="size-5" />
+              <span>{ user.fullName }</span>
             </Link>
-
           </div>
 
         </div>

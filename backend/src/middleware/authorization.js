@@ -5,7 +5,6 @@ async function authenticateToken(req, res, next) {
     try {
         const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "")
 
-        // console.log(token);
         if (!token) {
             return res.status(401).json({
                 error: true,

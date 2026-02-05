@@ -15,6 +15,7 @@ const HomePage = () => {
   const [isRateLimited, setIsRateLimited] = useState(false);
   const [notes, setNotes] = useState([])
   const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState({"fullName" : ""})
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -37,7 +38,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar/>
 
       {isRateLimited && <RateLimitAlert />}
 
