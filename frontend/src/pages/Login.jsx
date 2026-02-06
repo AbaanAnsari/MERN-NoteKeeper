@@ -12,6 +12,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const [user, setUser] = useState("")
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -25,7 +26,6 @@ const Login = () => {
             setError("Invalid password");
             return;
         }
-
         try {
             setLoading(true);
 
@@ -34,29 +34,40 @@ const Login = () => {
                 password,
             });
 
-            setUser(res.data.user);
+            // Backend returns: { user, accessToken, refreshToken }
+            const { user } = await res.data;
+
+            // Save user in global state / context / redux
+            setUser(user);
+
             toast.success("Login successful");
             navigate("/");
 
         } catch (error) {
-            if (error.response.status === 429) {
-                toast.error(
-                    "Too many requests. Please try again later.",
-                    { duration: 4000, icon: "⏳" }
-                );
-            } else if (error.response.status === 401) {
-                toast.error("User with this email does not exist")
-                navigate("/signup")
-            } else if (error.response.status === 401) {
-                toast.error("Invalid Password")
+            console.log("LOGIN ERROR:", error);
+
+            const status = error.response?.status;
+            const message = error.response?.data?.message;
+
+            if (status === 429) {
+                toast.error("Too many requests. Please try again later.", {
+                    duration: 4000,
+                    icon: "⏳",
+                });
+            }
+            else if (status === 404) {
+                toast.error(message || "User not found");
+            }
+            else if (status === 401) {
+                toast.error(message || "Invalid password");
             }
             else {
-                toast.error("Failed to Login");
+                // network / CORS / server down
+                toast.error("Server unreachable. Please try again.");
             }
         } finally {
             setLoading(false);
         }
-
     };
 
     return (

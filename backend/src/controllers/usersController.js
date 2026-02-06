@@ -43,7 +43,7 @@ export async function createAccount(req, res) {
                 message: "User already exist"
             })
         }
-    
+
         const user = await User.create({
             fullName,
             email,
@@ -79,7 +79,7 @@ export async function loginUser(req, res) {
         });
     
         if (!user) {
-            return res.status(400).json({
+            return res.status(404).json({
                 message: "User not found"
             })
         }
