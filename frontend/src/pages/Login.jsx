@@ -1,14 +1,17 @@
 
-import { Link, Navigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import PasswordInput from "../components/input/PasswordInput";
 import { useState } from "react";
 import { validateEmail } from "../lib/helper";
 import toast from "react-hot-toast";
+import axiosInstance from "../lib/axios";
 
 const Login = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState(null);
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -23,10 +26,38 @@ const Login = () => {
             return;
         }
 
-        
+        try {
+            setLoading(true);
+
+            const res = await axiosInstance.post("/users/login", {
+                email,
+                password,
+            });
+
+            setUser(res.data.user);
+            toast.success("Login successful");
+            navigate("/");
+
+        } catch (error) {
+            if (error.response.status === 429) {
+                toast.error(
+                    "Too many requests. Please try again later.",
+                    { duration: 4000, icon: "⏳" }
+                );
+            } else if (error.response.status === 401) {
+                toast.error("User with this email does not exist")
+                navigate("/signup")
+            } else if (error.response.status === 401) {
+                toast.error("Invalid Password")
+            }
+            else {
+                toast.error("Failed to Login");
+            }
+        } finally {
+            setLoading(false);
+        }
+
     };
-
-
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
@@ -61,7 +92,7 @@ const Login = () => {
                             {error && <p className="text-red-500 text-xs pb-1">{error}</p>}
 
                             <button className="btn btn-primary w-full">
-                                Login
+                                {loading ? (<span className="loading loading-spinner"></span>) : ("Login")}
                             </button>
                         </form>
 
