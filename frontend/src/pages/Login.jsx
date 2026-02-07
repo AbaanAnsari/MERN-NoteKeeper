@@ -1,47 +1,46 @@
-
-import { Link, useNavigate } from "react-router";
-import PasswordInput from "../components/input/PasswordInput";
+import { Link, replace, useNavigate } from "react-router";
 import { useState } from "react";
+import PasswordInput from "../components/input/PasswordInput";
 import { validateEmail } from "../lib/helper";
 import toast from "react-hot-toast";
 import axiosInstance from "../lib/axios";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
     const navigate = useNavigate();
+    const { fetchUser } = useAuth();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-    const [user, setUser] = useState("")
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setError("");
 
+        // validation
         if (!validateEmail(email)) {
             setError("Invalid email address");
             return;
         }
 
         if (!password) {
-            setError("Invalid password");
+            setError("Password is required");
             return;
         }
+
         try {
             setLoading(true);
 
-            const res = await axiosInstance.post("/users/login", {
+            await axiosInstance.post("/users/login", {
                 email,
                 password,
             });
-
-            // Backend returns: { user, accessToken, refreshToken }
-            const { user } = await res.data;
-
-            // Save user in global state / context / redux
-            setUser(user);
+            await fetchUser();
 
             toast.success("Login successful");
-            navigate("/");
+            navigate("/", { replace: true });
 
         } catch (error) {
             console.log("LOGIN ERROR:", error);
@@ -54,15 +53,11 @@ const Login = () => {
                     duration: 4000,
                     icon: "⏳",
                 });
-            }
-            else if (status === 404) {
+            } else if (status === 404) {
                 toast.error(message || "User not found");
-            }
-            else if (status === 401) {
+            } else if (status === 401) {
                 toast.error(message || "Invalid password");
-            }
-            else {
-                // network / CORS / server down
+            } else {
                 toast.error("Server unreachable. Please try again.");
             }
         } finally {
@@ -84,6 +79,8 @@ const Login = () => {
                         </h2>
 
                         <form onSubmit={handleLogin} className="space-y-4 mt-4">
+
+                            {/* Email */}
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Email</span>
@@ -97,25 +94,33 @@ const Login = () => {
                                 />
                             </div>
 
-                            <PasswordInput value={password}
-                                onChange={(e) => setPassword(e.target.value)} />
+                            {/* Password */}
+                            <PasswordInput
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
 
-                            {error && <p className="text-red-500 text-xs pb-1">{error}</p>}
+                            {error && (
+                                <p className="text-red-500 text-xs">{error}</p>
+                            )}
 
+                            {/* Submit */}
                             <button className="btn btn-primary w-full">
-                                {loading ? (<span className="loading loading-spinner"></span>) : ("Login")}
+                                {loading ? (
+                                    <span className="loading loading-spinner"></span>
+                                ) : (
+                                    "Login"
+                                )}
                             </button>
                         </form>
 
                         <p className="text-center text-sm mt-4">
                             Don’t have an account?{" "}
-                            <Link
-                                to="/signup"
-                                className="link link-primary"
-                            >
+                            <Link to="/signup" className="link link-primary">
                                 Sign up
                             </Link>
                         </p>
+
                     </div>
                 </div>
             </div>

@@ -120,6 +120,26 @@ export async function loginUser(req, res) {
     }
 };
 
+// Get Current User
+export async function getCurrentUser(req, res) {
+    try {
+        const user = await User
+            .findById(req.user._id)
+            .select("-password -refreshToken");
+
+        return res.status(200).json({
+            message: "User fetched successfully",
+            user: user,
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Error fetching the user",
+        });
+    }
+}
+
+
 //Logout User
 export async function logoutUser(req, res) {
     await User.findByIdAndUpdate(req.user._id,
