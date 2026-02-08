@@ -37,7 +37,7 @@ const DeleteConfirm = () => {
             Cancel
           </button>
 
-          <button className="btn btn-error" onClick={handleConfirmDelete}>
+          <button className="btn btn-error w-[75px]" onClick={handleConfirmDelete}>
             {loading ? (<span className="loading loading-spinner"></span>) : ("Delete")}
           </button>
         </div>
