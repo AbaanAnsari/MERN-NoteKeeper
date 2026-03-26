@@ -7,7 +7,6 @@ import path from "path"
 import notesRoute from "./Route/notesRoute.js";
 import usersRoute from "./Route/usersRoute.js";
 import { connectDB } from "./config/db.js";
-import rateLimiter from "./middleware/ratelimiter.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -33,7 +32,6 @@ if (process.env.NODE_ENV !== "production") {
 
 //middlewares
 app.use(express.json());
-app.use(rateLimiter);
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
